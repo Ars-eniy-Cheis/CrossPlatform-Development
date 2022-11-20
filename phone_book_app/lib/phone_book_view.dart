@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_contacts/fast_contacts.dart';
+import 'package:phone_book_app/phone_alert.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PhoneBookView extends StatefulWidget {
   const PhoneBookView({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class _PhoneBookViewState extends State<PhoneBookView> {
 
   @override
   void initState() {
+    super.initState();
     getContacts();
   }
 
@@ -89,15 +92,32 @@ class ContactListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: this.name != null ? Text(this.name.toString()) : Text(""),
-      subtitle: Column(
-        children: [
-          Text(this.phone != null ? this.phone.toString() : ""),
-          Text(this.email != null ? this.email.toString() : "")
-        ],
+    return InkWell(
+      child: ListTile(
+        title: this.name != null ? Text(this.name.toString()) : Text(""),
+        subtitle: Column(
+          children: [
+            Text(this.phone != null ? this.phone.toString() : ""),
+            Text(this.email != null ? this.email.toString() : "")
+          ],
+        ),
       ),
+      onTap: () => _dialogBuilder(context, this.phone.toString())
     );
+
   }
+}
+
+Future<void> _dialogBuilder(BuildContext context, String telephone) {
+  return
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return PhoneAlert(
+          phoneNumber: telephone,
+        );
+      },
+
+    );
 }
 

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 import 'character_model.dart';
+import 'character_page.dart';
 
 class CharactersView extends StatefulWidget {
   const CharactersView({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _CharactersViewState extends State<CharactersView> {
                 itemBuilder: (BuildContext context, int index){
                   CharacterModel? character = snapshot.data?[index];
                   return CharacterTile(
+                    characterId: character?.charId,
                     nickName: character?.nickname,
                     imageUrl: character?.img,
                   );
@@ -76,24 +78,36 @@ class _CharactersViewState extends State<CharactersView> {
 
 class CharacterTile extends StatelessWidget {
 
+  final int? characterId;
   final String? imageUrl;
   final String? nickName;
 
   const CharacterTile({
+    this.characterId = 0,
     this.imageUrl = "",
     this.nickName = "",
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(nickName!),
-      leading: Image(
-        fit: BoxFit.fill,
-        height: 50,
-        width: 50,
-        image: NetworkImage(imageUrl!),),
+    return InkWell(
+      child: ListTile(
+        title: Text(nickName!),
+        leading: Image(
+          fit: BoxFit.fill,
+          height: 50,
+          width: 50,
+          image: NetworkImage(imageUrl!),),
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => CharacterPage(characterId: this.characterId!.toInt()),
+          ),
+        );
+      },
     );
+
   }
 
 }
