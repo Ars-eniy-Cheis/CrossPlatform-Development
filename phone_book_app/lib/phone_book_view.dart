@@ -15,7 +15,7 @@ class PhoneBookView extends StatefulWidget {
 
 class _PhoneBookViewState extends State<PhoneBookView> {
   late List<Contact> contacts;
-  late List<Contact> filteredContacts;
+  late List<Contact> filteredContacts = <Contact>[];
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _PhoneBookViewState extends State<PhoneBookView> {
             onChanged: (String value) {
               setState(() {
                 searchContact(value);
-              });;
+              });
             },
           ),
           Expanded(

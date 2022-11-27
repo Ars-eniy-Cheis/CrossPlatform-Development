@@ -64,7 +64,6 @@ class _CharactersViewState extends State<CharactersView> {
           if(values[i]!=null){
             Map<String,dynamic> map=values[i];
             CharList.add(CharacterModel.fromJson(map));
-            debugPrint('Id-------${map['id']}');
           }
         }
       }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,13 +41,19 @@ class _CharacterPageState extends State<CharacterPage> {
               CharacterModel? characterModel = snapshot.data;
               return Column(
                 children: [
-                  Image(image: NetworkImage(characterModel!.img.toString())),
+                  Image(
+                      image: NetworkImage(characterModel!.img!)),
                   Text(characterModel.name.toString())
                 ],
               );
             }
+            else if(snapshot.hasError){
+              return Text(snapshot.error.toString());
+            }
             else{
-              return Container();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
           }
       ),
@@ -58,8 +65,8 @@ Future<CharacterModel> getCharacterData(int characterId) async{
 
   final url = Uri.parse('https://www.breakingbadapi.com/api/characters/'+characterId.toString());
   Response response = await get(url);
-
   if(response.statusCode == 200){
+    log(json.decode(response.body));
     CharacterModel Character = CharacterModel.fromJson(json.decode(response.body));
     return Character;
   }
