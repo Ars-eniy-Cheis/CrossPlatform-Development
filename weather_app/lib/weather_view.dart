@@ -8,8 +8,6 @@ import 'package:translator/translator.dart';
 import 'package:weather_app/weather_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-//HTTP request:
-
 class WeatherView extends StatefulWidget {
   const WeatherView({Key? key}) : super(key: key);
 
